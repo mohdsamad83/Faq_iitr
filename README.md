@@ -2,6 +2,9 @@
 
 A comprehensive FAQ and Query Management Portal built for the Vicharanashala Lab Internship Hub.
 
+## Wireframe Workflow
+![Vicharanashala Wireframe](./vicharanashala_wireframe_v2_1779778701418.png)
+
 ## Technology Stack
 - **MongoDB**: Database for Users, Queries, and FAQs
 - **Express.js**: Backend REST API framework
