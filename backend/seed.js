@@ -8,28 +8,30 @@ connectDB();
 
 const importData = async () => {
     try {
-        // Only seed if empty to prevent wiping real data if this is run by accident later
-        const count = await User.countDocuments();
-        if (count === 0) {
-            const users = [
-                {
-                    name: 'Admin User',
-                    email: 'admin@iitr.ac.in',
-                    password: 'password123',
-                    role: 'admin'
-                },
-                {
-                    name: 'Student User',
-                    email: 'student@iitr.ac.in',
-                    password: 'password123',
-                    role: 'student'
-                }
-            ];
-            await User.insertMany(users);
-            console.log('Data Imported: Dummy Admin and Student accounts created!');
-        } else {
-            console.log('Database already has users, skipping seed to protect data.');
+        // Clear all users first to fix the unhashed password issue
+        await User.deleteMany();
+        
+        const users = [
+            {
+                name: 'Admin User',
+                email: 'admin@iitr.ac.in',
+                password: 'password123',
+                role: 'admin'
+            },
+            {
+                name: 'Student User',
+                email: 'student@iitr.ac.in',
+                password: 'password123',
+                role: 'student'
+            }
+        ];
+
+        // Use User.create() in a loop so the Mongoose pre('save') hook runs and hashes the passwords
+        for (const user of users) {
+            await User.create(user);
         }
+        
+        console.log('Data Imported: Dummy Admin and Student accounts created with HASHED passwords!');
         process.exit();
     } catch (error) {
         console.error(`${error}`);

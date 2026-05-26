@@ -1,33 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
 
 :root {
-  /* Premium Dark Mode Colors */
-  --bg-primary: #0f1115;
-  --bg-secondary: #1a1d24;
-  --bg-card: rgba(26, 29, 36, 0.7);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  
-  /* Brand Accents (Vibrant Blue/Purple) */
-  --accent-blue: #3b82f6;
-  --accent-indigo: #6366f1;
-  --accent-gradient: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
-  
-  /* Status Colors */
-  --status-success: #10b981;
-  --status-warning: #f59e0b;
-  --status-danger: #ef4444;
-  
-  /* UI Elements */
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-radius: 12px;
-  --glass-blur: blur(12px);
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
-  
-  /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
+  --primary-font: 'Inter', sans-serif;
+  --serif-font: 'Playfair Display', serif;
+  --bg-color: #ffffff;
+  --sidebar-bg: #fdfbf8;
+  --sidebar-active: #f1ebd8;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --border-color: #e5e7eb;
+  --footer-bg: #091124;
+  --footer-text: #9ca3af;
 }
 
 * {
@@ -37,79 +20,18 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--primary-font);
+  color: var(--text-dark);
+  background-color: var(--bg-color);
+  line-height: 1.5;
 }
 
-/* Glassmorphism utility */
-.glass-panel {
-  background: var(--bg-card);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-lg);
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-/* Base Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fadeIn var(--transition-normal) forwards;
-}
-
-/* Button utility */
-.btn-primary {
-  background: var(--accent-gradient);
-  color: white;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
+button {
   cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--text-secondary);
-}
-
-/* Layout utilities */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-family: inherit;
 }
