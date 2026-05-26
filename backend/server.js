@@ -10,7 +10,7 @@ const faqRoutes = require('./routes/faqRoutes');
 dotenv.config();
 
 // Connect to database
-// connectDB(); // We will connect when we start defining models
+connectDB();
 
 const app = express();
 

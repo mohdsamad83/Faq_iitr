@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import FAQPage from './pages/FAQPage';
@@ -11,12 +11,24 @@ import Navbar from './components/Navbar';
 import LoginModal from './components/LoginModal';
 import './index.css';
 
-function App() {
+const AppContent = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = (userData) => {
+    setIsAuthenticated(true);
+    setIsLoginOpen(false);
+    
+    // Role-based routing
+    if (userData.role === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/dashboard');
+    }
+  };
 
   return (
-    <Router>
       <div className="app-container">
         <Navbar 
           onOpenLogin={() => setIsLoginOpen(true)} 
@@ -37,13 +49,17 @@ function App() {
         {isLoginOpen && (
           <LoginModal 
             onClose={() => setIsLoginOpen(false)} 
-            onLogin={() => {
-              setIsAuthenticated(true);
-              setIsLoginOpen(false);
-            }} 
+            onLogin={handleLogin} 
           />
         )}
       </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
