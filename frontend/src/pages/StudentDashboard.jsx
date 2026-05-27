@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { LayoutGrid, MessageSquare, Settings, Search, PlusCircle, CheckCircle2, Bell, ChevronUp, MessageCircle, CheckCircle, Clock, TrendingUp, Link as LinkIcon, LogOut } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { LayoutGrid, MessageSquare, Settings, Search, PlusCircle, CheckCircle2, Bell, ChevronUp, MessageCircle, CheckCircle, Clock, TrendingUp, Link as LinkIcon, LogOut, Info, Banknote, ShieldCheck, DoorOpen, Users, ClipboardList, FileText, GraduationCap, X, Moon, Sun } from 'lucide-react';
 import RaiseQueryView from './RaiseQueryView';
 import QueryDetailView from './QueryDetailView';
+import ProfileSettingsView from './ProfileSettingsView';
 import './StudentDashboard.css';
 
 const mockNotifications = [
@@ -72,6 +74,8 @@ const StudentDashboard = ({ user, onLogout }) => {
   const [showLogout, setShowLogout] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentView, setCurrentView] = useState('dashboard');
   const [selectedQuery, setSelectedQuery] = useState(null);
   
@@ -129,7 +133,7 @@ const StudentDashboard = ({ user, onLogout }) => {
   }
 
   return (
-    <div className="dash-wrapper-v2">
+    <div className={`dash-wrapper-v2 ${isDarkMode ? 'dark-mode' : ''}`}>
       {/* Sidebar */}
       <aside className="dash-sidebar-v2">
         <div 
@@ -159,7 +163,6 @@ const StudentDashboard = ({ user, onLogout }) => {
           >
             <MessageSquare size={20} /> My Queries
           </div>
-          <div className="dash-nav-item-v2"><Settings size={20} /> Settings</div>
         </nav>
       </aside>
 
@@ -167,13 +170,19 @@ const StudentDashboard = ({ user, onLogout }) => {
       <div className="dash-main-v2">
         {/* Header */}
         <header className="dash-header-v2">
-          <div className="dash-search-v2">
+          <div 
+            className="dash-search-v2" 
+            onClick={() => setIsSearchModalOpen(true)}
+            style={{ cursor: 'pointer' }}
+          >
             <Search size={16} color="#6b7280" style={{ marginRight: '10px' }} />
             <input 
               type="text" 
               placeholder="Search FAQs, categories, or status..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ pointerEvents: 'none', background: 'transparent' }}
+              readOnly
             />
           </div>
 
@@ -211,6 +220,14 @@ const StudentDashboard = ({ user, onLogout }) => {
               )}
             </div>
 
+            <div 
+              style={{ cursor: 'pointer', color: '#4b5563', padding: '0 12px', display: 'flex', alignItems: 'center' }}
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              title="Toggle Day/Night Mode"
+            >
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </div>
+
             <div className="user-profile-v2" onClick={() => { setShowLogout(!showLogout); setIsNotificationsOpen(false); }}>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '13px', fontWeight: '700', color: '#111827' }}>{user?.name || 'Rahul Prasad'}</div>
@@ -223,8 +240,21 @@ const StudentDashboard = ({ user, onLogout }) => {
 
             {showLogout && (
               <div className="logout-dropdown">
-                <button className="logout-btn" onClick={onLogout}>
-                  <LogOut size={16} /> LOGOUT
+                <div 
+                  style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', color: '#4b5563', fontSize: '13px', fontWeight: '600' }}
+                  onClick={() => {
+                    setCurrentView('profileSettings');
+                    setShowLogout(false);
+                  }}
+                >
+                  <Settings size={16} /> Profile Settings
+                </div>
+                <div style={{ height: '1px', background: '#e5e7eb', margin: '4px 0' }}></div>
+                <button 
+                  style={{ width: '100%', border: 'none', textAlign: 'left', padding: '10px 16px', color: '#dc2626', fontSize: '13px', background: 'transparent', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '600', cursor: 'pointer' }}
+                  onClick={onLogout}
+                >
+                  <LogOut size={16} /> Logout
                 </button>
               </div>
             )}
@@ -443,8 +473,72 @@ const StudentDashboard = ({ user, onLogout }) => {
             query={selectedQuery} 
             onClose={() => setCurrentView('dashboard')} 
           />
+        ) : currentView === 'profileSettings' ? (
+          <ProfileSettingsView />
         ) : null}
       </div>
+
+      {/* Search Modal Overlay */}
+      {isSearchModalOpen && createPortal(
+        <div className="search-modal-overlay" onClick={() => setIsSearchModalOpen(false)}>
+          <div className="search-modal" onClick={e => e.stopPropagation()}>
+            <div className="sm-input-wrapper">
+              <div className="sm-input-container">
+                <Search size={24} color="#6b7280" />
+                <input 
+                  type="text" 
+                  className="sm-input" 
+                  placeholder="Search FAQs, categories, or status..."
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  autoFocus
+                />
+                <X size={24} color="#6b7280" style={{ cursor: 'pointer' }} onClick={() => setIsSearchModalOpen(false)} />
+              </div>
+            </div>
+
+            <div className="sm-categories-section">
+              <div className="sm-cat-header">
+                <span>CATEGORIES</span>
+                <div className="sm-cat-line"></div>
+              </div>
+              
+              <div className="sm-cat-grid">
+                {/* Category Cards */}
+                {[
+                  { icon: Info, title: 'Internship Info', count: 45, color: '#1e3a8a', bg: '#eff6ff' },
+                  { icon: Banknote, title: 'Stipend & Benefits', count: 32, color: '#9a3412', bg: '#ffedd5' },
+                  { icon: ShieldCheck, title: 'NOC Requirements', count: 28, color: '#c2410c', bg: '#ffedd5' },
+                  { icon: DoorOpen, title: 'Lab Access', count: 67, color: '#7e22ce', bg: '#f3e8ff' },
+                  { icon: Users, title: 'Work Culture', count: 19, color: '#be123c', bg: '#ffe4e6' },
+                  { icon: ClipboardList, title: 'Project Allocation', count: 38, color: '#1d4ed8', bg: '#eff6ff' },
+                  { icon: FileText, title: 'Final Report', count: 24, color: '#374151', bg: '#f3f4f6' },
+                  { icon: GraduationCap, title: 'Academic Credits', count: 15, color: '#b45309', bg: '#fef3c7' }
+                ].map((cat, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`sm-cat-card ${idx === 0 ? 'active' : ''}`}
+                    onClick={() => {
+                      alert(`Filtering dashboard feed by category: ${cat.title}`);
+                      setCategoryFilter('All'); // Real integration would set proper enum
+                      setSearchQuery(cat.title); // Simulating filter via search
+                      setIsSearchModalOpen(false);
+                      setCurrentView('dashboard');
+                    }}
+                  >
+                    <div className="sm-cat-icon" style={{ color: cat.color, background: cat.bg }}>
+                      <cat.icon size={20} />
+                    </div>
+                    <h4>{cat.title}</h4>
+                    <div className="sm-cat-badge">{cat.count} FAQS</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };

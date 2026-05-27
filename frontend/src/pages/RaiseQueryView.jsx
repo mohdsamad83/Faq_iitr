@@ -14,7 +14,6 @@ const RaiseQueryView = () => {
     <div style={{ flex: 1, overflowY: 'auto' }}>
       <div className="rq-subnav">
         <div className="rq-tab active">Raise a Query</div>
-        <div className="rq-tab">Track a Query</div>
       </div>
 
       <div className="rq-content">
@@ -175,7 +174,11 @@ const RaiseQueryView = () => {
                 We found some queries similar to yours. Checking these might give you an instant answer.
               </p>
 
-              <div className="sim-card">
+              <div 
+                className="sim-card" 
+                style={{ cursor: 'pointer' }}
+                onClick={() => alert("Opening details for: Late grade submission for CMS102")}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span className="sim-badge resolved">RESOLVED</span>
                   <ExternalLink size={12} color="#9ca3af" />
@@ -184,7 +187,11 @@ const RaiseQueryView = () => {
                 <p>"Is there a policy for when professors don't upload final grades within..."</p>
               </div>
 
-              <div className="sim-card">
+              <div 
+                className="sim-card"
+                style={{ cursor: 'pointer' }}
+                onClick={() => alert("Opening details for: Portal error during course reg")}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span className="sim-badge progress">IN PROGRESS</span>
                   <ExternalLink size={12} color="#9ca3af" />
@@ -193,7 +200,11 @@ const RaiseQueryView = () => {
                 <p>"The portal keeps timing out when I try to add my elective..."</p>
               </div>
 
-              <div className="sim-card">
+              <div 
+                className="sim-card"
+                style={{ cursor: 'pointer' }}
+                onClick={() => alert("Opening details for: Hostel Wi-Fi downtime in Block B")}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span className="sim-badge resolved">RESOLVED</span>
                   <ExternalLink size={12} color="#9ca3af" />
