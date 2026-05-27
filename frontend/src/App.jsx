@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import FAQPage from './pages/FAQPage';
 import StudentDashboard from './pages/StudentDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import './index.css';
 
 function App() {
@@ -24,11 +25,7 @@ function App() {
         />
         <Route 
           path="/admin" 
-          element={
-            user && user.role === 'admin' 
-              ? <div style={{ padding: '40px', fontFamily: 'Inter' }}><h1>Admin Panel (Under Construction)</h1></div>
-              : <Navigate to="/" />
-          } 
+          element={<AdminDashboard user={user} onLogout={() => setUser(null)} />} 
         />
       </Routes>
     </Router>
